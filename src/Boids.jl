@@ -1,6 +1,6 @@
 module Boids
 
-using LinearAlgebra: normalize,norm
+using LinearAlgebra: normalize,normalize!,norm
 using Distributions: MvNormal
 
 export BoidState, BoidState, update!, ruleOrientations!, rulePosition!, moveReflect!, movePeriodic!, normReflect, normPeriodic, runSimple2DBoids
