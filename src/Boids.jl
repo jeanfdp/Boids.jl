@@ -126,5 +126,15 @@ function normPeriodic(v1::Vector{Float64}, v2::Vector{Float64}, box_size::Tuple)
     norm(temp)
 end
 
+function runSimple2DBoids(numboids::Int64,steps::Int64,size::Float64,vel::Float64,paramMaxRad::Float64,paramMinRad::Float64,paramPosWeight::Float64,paramRepWeight::Float64,paramVelWeight::Float64)
+    out=[BoidState(numboids,(size,size))]
+    for i in 1:steps
+        newstate = deepcopy(out[end])
+        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,normPeriodic),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,normPeriodic),state->moveReflect!(state,vel,(size,size)))
+        push!(out,newstate)
+    end
+    return out
+end
+
 
 end
