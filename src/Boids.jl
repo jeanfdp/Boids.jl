@@ -3,7 +3,7 @@ module Boids
 using LinearAlgebra: normalize
 using Distributions: MvNormal
 
-export BoidState, BoidState, update!, ruleOrientations!, rulePosition!, moveReflect!, movePeriodic!, normReflect, normPeriodic
+export BoidState, BoidState, update!, ruleOrientations!, rulePosition!, moveReflect!, movePeriodic!, normReflect, normPeriodic, runSimple2DBoids
 
 struct BoidState
     positions::Vector{Vector{Float64}}
@@ -32,7 +32,7 @@ function ruleOrientations!(boid_state::BoidState, paramMaxRad::Float64, paramVel
             if i == j
                 continue
             end
-            if norm(boid_state.positions[i] - boid_state.positions[j]) > paramMaxRad
+            if norm(boid_state.positions[i], boid_state.positions[j]) > paramMaxRad
                 continue
             end
             temp .+= boid_state.orientations[j]
@@ -58,10 +58,10 @@ function rulePosition!(boid_state::BoidState, paramMaxRad::Float64, paramMinRad:
             if i == j
                 continue
             end
-            if norm(boid_state.positions[i] - boid_state.positions[j]) > paramMaxRad
+            if norm(boid_state.positions[i], boid_state.positions[j]) > paramMaxRad
                 continue
             end
-            if norm(boid_state.positions[i] - boid_state.positions[j]) < paramMinRad
+            if norm(boid_state.positions[i], boid_state.positions[j]) < paramMinRad
                 temprepulse .+= boid_state.positions[j]
                 Nr += 1
                 continue
@@ -130,7 +130,7 @@ function runSimple2DBoids(numboids::Int64,steps::Int64,size::Float64,vel::Float6
     out=[BoidState(numboids,(size,size))]
     for i in 1:steps
         newstate = deepcopy(out[end])
-        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,normPeriodic),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,normPeriodic),state->moveReflect!(state,vel,(size,size)))
+        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,(v1,v2)->normPeriodic(v1,v2,(size,size))),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,(v1,v2)->normPeriodic(v1,v2,(size,size))),state->moveReflect!(state,vel,(size,size)))
         push!(out,newstate)
     end
     return out
