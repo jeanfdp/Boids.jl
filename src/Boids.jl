@@ -130,7 +130,7 @@ function runSimple2DBoids(numboids::Int64,steps::Int64,size::Float64,vel::Float6
     out=[BoidState(numboids,(size,size))]
     for i in 1:steps
         newstate = deepcopy(out[end])
-        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,(v1,v2)->normPeriodic(v1,v2,(size,size))),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,(v1,v2)->normPeriodic(v1,v2,(size,size))),state->moveReflect!(state,vel,(size,size)))
+        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,(v1,v2)->normPeriodic(v1,v2,(size,size))),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,(v1,v2)->normPeriodic(v1,v2,(size,size))),state->movePeriodic!(state,vel,(size,size)))
         push!(out,newstate)
     end
     return out
@@ -140,7 +140,7 @@ function runSimple3DBoids(numboids::Int64,steps::Int64,size::Float64,vel::Float6
     out=[BoidState(numboids,(size,size,size))]
     for i in 1:steps
         newstate = deepcopy(out[end])
-        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,(v1,v2)->normPeriodic(v1,v2,(size,size,size))),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,(v1,v2)->normPeriodic(v1,v2,(size,size,size))),state->moveReflect!(state,vel,(size,size,size)))
+        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,(v1,v2)->normPeriodic(v1,v2,(size,size,size))),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,(v1,v2)->normPeriodic(v1,v2,(size,size,size))),state->movePeriodic!(state,vel,(size,size,size)))
         push!(out,newstate)
     end
     return out
