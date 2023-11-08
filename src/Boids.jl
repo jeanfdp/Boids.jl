@@ -3,7 +3,7 @@ module Boids
 using LinearAlgebra: normalize,normalize!,norm
 using Distributions: MvNormal
 
-export BoidState, BoidState, update!, ruleOrientations!, rulePosition!, moveReflect!, movePeriodic!, normReflect, normPeriodic, runSimple2DBoids
+export BoidState, BoidState, update!, ruleOrientations!, rulePosition!, moveReflect!, movePeriodic!, normReflect, normPeriodic, runSimple2DBoids, runSimple3DBoids
 
 struct BoidState
     positions::Vector{Vector{Float64}}
@@ -136,5 +136,14 @@ function runSimple2DBoids(numboids::Int64,steps::Int64,size::Float64,vel::Float6
     return out
 end
 
+function runSimple3DBoids(numboids::Int64,steps::Int64,size::Float64,vel::Float64,paramMaxRad::Float64,paramMinRad::Float64,paramPosWeight::Float64,paramRepWeight::Float64,paramVelWeight::Float64)
+    out=[BoidState(numboids,(size,size,size))]
+    for i in 1:steps
+        newstate = deepcopy(out[end])
+        update!(newstate,state->ruleOrientations!(state,paramMaxRad,paramVelWeight,(v1,v2)->normPeriodic(v1,v2,(size,size,size))),state->rulePosition!(state,paramMaxRad,paramMinRad,paramPosWeight,paramRepWeight,(v1,v2)->normPeriodic(v1,v2,(size,size,size))),state->moveReflect!(state,vel,(size,size,size)))
+        push!(out,newstate)
+    end
+    return out
+end
 
 end
