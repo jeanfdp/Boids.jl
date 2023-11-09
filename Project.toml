@@ -1,7 +1,7 @@
 name = "Boids"
 uuid = "d31cee86-d6f0-47a3-813b-bb8537950420"
 authors = ["Jean F Du Plessis"]
-version = "1.0.0-DEV"
+version = "1.0.0"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"

@@ -5,8 +5,6 @@
 
 ## Installation
 
-You can install `Boids.jl` using the Julia package manager. From the Julia REPL, type `]` to enter the Pkg REPL mode and run:
-
 You can easily install `Boids.jl` using the Julia package manager. Open the Julia REPL, and type the following commands:
 
 ```julia
