@@ -8,8 +8,8 @@
 You can easily install `Boids.jl` using the Julia package manager. Open the Julia REPL, and type the following commands:
 
 ```julia
-import Pkg
-Pkg.add(url="https://github.com/jeanfdp/Boids.jl")
+using Pkg
+Pkg.add("Boids")
 ```
 
 
